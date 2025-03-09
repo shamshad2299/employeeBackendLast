@@ -2,7 +2,10 @@ import mongoose from 'mongoose';
 
 const DataBaseConntect = async ()=>{
   try {
-    await mongoose.connect(process.env.MONGO_URI);
+    await mongoose.connect(process.env.MONGO_URI ,{
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     console.log("data Base conncted successfully")
     
   } catch (error) {
