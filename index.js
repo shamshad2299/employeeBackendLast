@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import DataBaseConntect from "./DataBaseToConnect/DbConnect.js";
 import router from "./Router/allRouter.js";
 import cors from "cors";
+import path from "path"
 dotenv.config();
 
 const app = express();
@@ -20,8 +21,12 @@ const url = process.env.URL || "https://employee-backend-last.vercel.app";
 app.use(express.urlencoded({ extended: true }));
 
 //for using images at frontEnd
-app.use(express.static("public/uploads"));
-app.use(express.static('public'));
+// Serve files from the public folder
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Alternative if you want URLs like /uploads/filename.jpg
+app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
+
 
 
 app.get("/", (req, res) => {
