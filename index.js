@@ -16,7 +16,7 @@ app.use(cors({
 
 
 const port = process.env.PORT || 5000;
-const url = process.env.URL || "https://employee-front-end-gold.vercel.app";
+const url = process.env.URL || "https://employee-backend-last.vercel.app";
 app.use(express.urlencoded({ extended: true }));
 
 //for using images at frontEnd 
