@@ -21,6 +21,8 @@ app.use(express.urlencoded({ extended: true }));
 
 //for using images at frontEnd
 app.use(express.static("public/uploads"));
+app.use(express.static('public'));
+
 
 app.get("/", (req, res) => {
   res.json({
