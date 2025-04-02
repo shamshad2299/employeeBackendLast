@@ -40,6 +40,6 @@ departmentSchema.pre("deleteOne" ,{document : true , query : false} , async func
   
 })
 
-const DepartmentModel = mongoose.model("department" , departmentSchema);
+const DepartmentModel = mongoose.model("Department" , departmentSchema);
 
 export default DepartmentModel;

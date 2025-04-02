@@ -28,7 +28,8 @@ const EditEmployeeDetail = async (req, res) => {
  
     };
 
-const newEmployee = await Employee.findByIdAndUpdate({_id : empId} , payload).populate("userId" , {password : 0}).populate("department");
+const newEmployee = await Employee.findByIdAndUpdate({_id : empId} , payload   ,{ new: true } // Returns the updated document
+).populate("userId" , {password : 0}).populate("department");
 res.status(200).json({
   message : "employee Updated Successfully",
   employee : newEmployee,
@@ -36,7 +37,13 @@ res.status(200).json({
   success : true,
 })
 
-  } catch (error) {}
+  } catch (error) {
+    res.json({
+      success : false,
+      error : true,
+      message : error.message || error
+    })
+  }
 };
 
 export default EditEmployeeDetail;
