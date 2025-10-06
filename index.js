@@ -20,8 +20,8 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use(
   cors({
-     //origin: "https://employee-front-end-gold.vercel.app",
-     origin : "http://localhost:5173",
+     origin: "https://employee-front-end-gold.vercel.app",
+     //origin : "http://localhost:5173",
     credentials: true,
   })
 );
