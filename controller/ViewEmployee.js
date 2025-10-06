@@ -3,7 +3,8 @@ import Employee from "../Models/employeeModel.js";
 const ViewEmployee = async (req, res) => {
  
   try {
-    const id = req.params.id;
+    const id = req?.params?.id;
+
     let employee ;
     employee = await Employee?.findById({ _id: id })
       .populate("userId", { password: 0 })

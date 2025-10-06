@@ -5,11 +5,10 @@ const LeaveSchema = new mongoose.Schema({
     type : Schema.Types.ObjectId,
     required : true,
     ref : "EmployeeModel",
-   
   },
   leaveType : {
   type : String,
-  enum : ["sick leave" , "casual leave" , "anual leave"],
+  enum : ["sick" , "casual" , "anual"],
   required: true,
   },
 

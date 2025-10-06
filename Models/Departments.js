@@ -4,7 +4,10 @@ import Leave from "./LeaveModel.js";
 import salaryModel from "./salaryModel.js";
 
 const departmentSchema = new mongoose.Schema({
-  
+  // userId : {
+  //   type  : mongoose.Schema.Types.ObjectId,
+  //   ref : "User",
+  // },
   dep_name : {
     type : String,
     required : true,
@@ -15,6 +18,17 @@ const departmentSchema = new mongoose.Schema({
   createdAt : {
     type : Date,
     default : Date.now,
+  },
+  department_head : {
+   type : String,
+   required : true,
+
+  },
+  location : {
+    type : String,
+  },
+  contact_email : {
+      type : String,
   },
   updatedAt :{
     type : Date,

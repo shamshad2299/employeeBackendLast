@@ -1,63 +1,125 @@
 import DepartmentModel from "../Models/Departments.js";
 
-const EditDepartment = async(req , res)=>{
-
+// Get department data for editing
+const EditDepartment = async (req, res) => {
   try {
-
-    const id = req?.params?.id;
-    const newDepartment = await DepartmentModel.findById({_id : id })
+    const { id } = req.params;
     
-  res.json({
-    department : newDepartment,
-    success : true,
-    error : false,
-    message : "Department updated successfully"
-  })
+    if (!id) {
+      return res.status(400).json({
+        error: true,
+        message: "Department ID is required",
+        success: false
+      });
+    }
+
+    const department = await DepartmentModel.findById(id);
+    
+    if (!department) {
+      return res.status(404).json({
+        error: true,
+        message: "Department not found",
+        success: false
+      });
+    }
+
+    return res.status(200).json({
+      department,
+      success: true,
+      error: false,
+      message: "Department fetched successfully"
+    });
     
   } catch (error) {
-
-    res.json({
-      error : true,
-      message : error.message || error,
-      success : false,
-    })
-    
+    console.error("Error fetching department:", error);
+    return res.status(500).json({
+      error: true,
+      message: "Server error while fetching department",
+      success: false
+    });
   }
+};
 
-}
-
-export const EditDataShow = async (req ,res)=>{
-
+// Update department data
+export const EditDataShow = async (req, res) => {
   try {
-    const id = req?.params?.id;
+    const { id } = req.params;
+    const { dep_name, description, department_head, location, contact_email } = req.body;
 
-    const {dep_name , description} = req.body;
+    if (!id) {
+      return res.status(400).json({
+        error: true,
+        message: "Department ID is required",
+        success: false
+      });
+    }
+
+    // Validate required fields
+    if (!dep_name || !description) {
+      return res.status(400).json({
+        error: true,
+        message: "Department name and description are required",
+        success: false
+      });
+    }
+
+    // Validate email format if provided
+    if (contact_email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact_email)) {
+      return res.status(400).json({
+        error: true,
+        message: "Invalid email format",
+        success: false
+      });
+    }
 
     const payload = {
-      ...(dep_name && {dep_name : dep_name}),
-      ...(description && {description :description})
-    }
-    
-const newData  = await DepartmentModel.findByIdAndUpdate({_id : id} , payload);
+      dep_name,
+      description,
+      ...(department_head && { department_head }),
+      ...(location && { location }),
+      ...(contact_email && { contact_email }),
+      updatedAt: new Date() // Track when the department was updated
+    };
 
-res.json({
-  data : newData,
-  message : "Department updated successfully",
-  error : false,
-  success : true,
-})
+    const updatedDepartment = await DepartmentModel.findByIdAndUpdate(
+      id,
+      payload,
+      { new: true, runValidators: true } // Return updated doc and run schema validators
+    );
+
+    if (!updatedDepartment) {
+      return res.status(404).json({
+        error: true,
+        message: "Department not found",
+        success: false
+      });
+    }
+
+    return res.status(200).json({
+      data: updatedDepartment,
+      message: "Department updated successfully",
+      error: false,
+      success: true
+    });
 
   } catch (error) {
-    res.json({
+    console.error("Error updating department:", error);
     
-      message : error.message || error,
-      error : true,
-      success : false,
-    })
+    // Handle Mongoose validation errors
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({
+        error: true,
+        message: error.message,
+        success: false
+      });
+    }
     
-    
+    return res.status(500).json({
+      error: true,
+      message: "Server error while updating department",
+      success: false
+    });
   }
-  
-}
+};
 
 export default EditDepartment;

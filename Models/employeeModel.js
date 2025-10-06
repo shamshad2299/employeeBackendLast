@@ -24,6 +24,11 @@ const employeeSchema = new mongoose.Schema({
     type: String,
     //enum: ["Single", "Married", "Divorced", "Widowed"], // Example enum validation
   },
+   status: {
+    type: String,
+  enum: ["pending", "active", "inactive", "suspended"],
+    default: "active",
+  },
   address: {
     type: String,
   },
@@ -36,6 +41,21 @@ const employeeSchema = new mongoose.Schema({
     type: Number,
     required: true,
     min: 0, // Example validation for minimum salary
+  },
+
+    requestedBy: {
+    type:Schema.Types.ObjectId,
+    ref: "User",
+  },
+  approvedBy: {
+    type:Schema.Types.ObjectId,
+    ref: "User",
+  },
+  requestDate: {
+    type: Date,
+  },
+  approvalDate: {
+    type: Date,
   },
   createdAt: {
     type: Date,

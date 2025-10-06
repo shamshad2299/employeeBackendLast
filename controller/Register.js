@@ -21,7 +21,6 @@ const Register = async(req , res)=>{
     
       const payload = {
         ...req.body , 
-        role : "GENERAL",
         password : hashedPassword,
       }
       const user  = new UserModel(payload);

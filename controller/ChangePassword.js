@@ -9,7 +9,7 @@ const ChangePassword = async(req , res) => {
   try {
     const {userId , oldPassword , newPassword } = req?.body;
     const user = await UserModel.findById({_id : userId});
- //   console.log(user)
+
 
     if(!user){
      throw new Error("user not found")
@@ -21,7 +21,7 @@ const ChangePassword = async(req , res) => {
     }
     const hashedPassword = await bcrypt.hash(newPassword , 10);
     const newUser = await UserModel.findByIdAndUpdate({_id : userId} , {password : hashedPassword});
-    //console.log(newUser);
+
 
     res.status(202).json({
       success : true, 

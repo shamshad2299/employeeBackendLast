@@ -6,15 +6,10 @@ const Salary = async(req , res)=>{
   try {
     const {  employeeId, salary ,allowance ,deduction, dueDate} = req?.body
 
-    // if( !name || !salary || !allowance || !deduction || !dueDate){
-    //   throw new Error("all fields are mandatory");
-    // }
+  
 
     const totalSalary = parseInt(salary)+ parseInt(allowance) -parseInt(deduction);
-    // const EmployeeSalary = await Employee.findById({_id : employeeId});
-    // if(EmployeeSalary){
-    //   throw new Error("this employee already exist and salary added already")
-    // }
+ 
 
     const emSalary = new salaryModel({
 

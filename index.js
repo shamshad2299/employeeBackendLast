@@ -3,53 +3,32 @@ import dotenv from "dotenv";
 import DataBaseConntect from "./DataBaseToConnect/DbConnect.js";
 import router from "./Router/allRouter.js";
 import cors from "cors";
-import { v2 as cloudinary } from 'cloudinary';
-import { CloudinaryStorage } from 'multer-storage-cloudinary';
-import multer from "multer";
+import path from "path";
+import { fileURLToPath } from 'url';
+
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
+// __dirname equivalent in ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Now this works
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use(
   cors({
-     origin: "https://employee-front-end-gold.vercel.app",
-     //origin : "http://localhost:5173",
+     //origin: "https://employee-front-end-gold.vercel.app",
+     origin : "http://localhost:5173",
     credentials: true,
   })
 );
 
-
-// 🔹 Configure Cloudinary
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET
-});
-
-// 🔹 Setup Multer Storage for Cloudinary
-const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
-    folder: 'uploads',
-    format: async (req, file) => 'png', // Set default format (you can change this)
-  },
-});
-
-const upload = multer({ storage });
-
-app.post('/upload', upload.single('file'), (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ error: 'File upload failed' });
-  }
-  res.json({ imageUrl: req.file.path });
-});
-
-
 const port = process.env.PORT || 5000;
- const url = process.env.URL || "https://employee-backend-last.vercel.app";
-//const url = process.env.URL || "http://localhost:5173";
+ //const url = process.env.URL || "https://employee-backend-last.vercel.app";
+const url = process.env.URL || "http://localhost:5173";
 app.use(express.urlencoded({ extended: true }));
 
 
