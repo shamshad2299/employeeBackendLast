@@ -10,7 +10,7 @@ const employeeSchema = new mongoose.Schema({
     type: String,
     unique: true,
     required: true,
-    match: /^[a-zA-Z0-9]+$/, // Example validation for alphanumeric characters
+   // match: /^[a-zA-Z0-9]+$/, // Example validation for alphanumeric characters
   },
   dob: {
     type: Date,
